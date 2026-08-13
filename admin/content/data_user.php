@@ -26,154 +26,173 @@
   <div class="app-content">
     <!--begin::Container-->
     <div class="container-fluid">
-      <button type="button" class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#tambah-user">+ Tambah User</button>
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      + Tambah User
+    </button>
 
-
-      <!--begin::Row-->
-      <div class="row">
-        <div class="col-lg-12">
-          <table class="table table-striped table-hover">
-            <thead>
+    <!--begin::Row-->
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Username</th>
+              <th scope="col">Password</th>
+              <th scope="col">Nama Lengkap</th>
+              <th scope="col">Email</th>
+              <th scope="col">No Hp</th>
+              <th scope="col">Role</th>
+              <th scope="col">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $query_users = "SELECT * FROM users"; //memilihh data
+            $result_users = mysqli_query($koneksi, $query_users); //koneksi ke database + milih data
+            while ($row = mysqli_fetch_array($result_users)) : // perulangan
+            ?>
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Username</th>
-                <th scope="col">Password</th>
-                <th scope="col">Nama Lengkap</th>
-                <th scope="col">Email</th>
-                <th scope="col">No Hp</th>
-                <th scope="col">Role</th>
-                <th scope="col">Aksi</th>
+                <th scope="row"><?= $row['id_user'] ?></th>
+                <td><?= $row['username'] ?></td>
+                <td><?= $row['password'] ?></td>
+                <td><?= $row['nama_lengkap'] ?></td>
+                <td><?= $row['email'] ?></td>
+                <td><?= $row['no_hp'] ?></td>
+                <td><?= $row['role'] ?></td>
+
+                <!-- tombol edit dan hapus -->
+                <td>
+                  <div class="aksi d-flex gap-2">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?= $row['id_user'] ?>">
+                      Edit
+                    </button>
+                    <form action="action/aksi_user.php" method="POST" class="m-0" id="formHapus-<?= $row['id_user'] ?>">
+                      <div>
+                        <!-- value edit -->
+                        <input value="hapus" type="hidden" class="form-control" id="edit" name="aksi" aria-describedby="emailHelp" hidden>
+
+                        <!-- value id_user -->
+                        <input value="<?= $row['id_user']  ?>" type="hidden" class="form-control" id="id_user" name="id_user" aria-describedby="emailHelp" hidden>
+                      </div>
+                      <button onclick="konfirmasiHapus(<?= $row['id_user']  ?>)" type="button" class="btn btn-danger">
+                        Hapus
+                      </button>
+                    </form>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              <?php
-              $query_users = "SELECT * FROM users"; //memilihh data
-              $result_users = mysqli_query($koneksi, $query_users); //koneksi ke database + milih data
-              while ($row = mysqli_fetch_array($result_users)) : // perulangan
-              ?>
-                <tr>
-                  <th scope="row"><?= $row['id_user'] ?></th>
-                  <td><?= $row['username'] ?></td>
-                  <td><?= $row['password'] ?></td>
-                  <td><?= $row['nama_lengkap'] ?></td>
-                  <td><?= $row['email'] ?></td>
-                  <td><?= $row['no_hp'] ?></td>
-                  <td><?= $row['role'] ?></td>
 
-                  <td>
-                    <div class="aksi">
-                      <button type="submit" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modaledit<?= $row['id_user'] ?>"> <i class="bi bi-pencil-square"></i>Edit</button>
-                      <button class="btn btn-danger"> <i class="bi bi-trash3"></i>Hapus</button>
+              <!-- Modal edit  -->
+              <!-- Modal -->
+              <div class="modal fade" id="editModal<?= $row['id_user'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data User</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                  </td>
-                </tr>
+                    <div class="modal-body">
+                      <!-- form edit user -->
+                      <form action="action/aksi_user.php" method="POST">
+                        <div class="mb-3">
+                          <!-- value edit -->
+                          <input value="edit" type="text" class="form-control" id="edit" name="aksi" aria-describedby="emailHelp" hidden>
 
-                <!-- Modal edit user -->
-                <div class="modal fade" id="modaledit<?= $row['id_user'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <!-- form -->
-                        <form action="action/aksi_user.php" method="POST">
-                          <!-- untuk mengarah ke aksi tambah -->
-                          <input type="text" name="aksi" id="" value="tambah" hidden>
+                          <!-- value id_user -->
+                          <input value="<?= $row['id_user']  ?>" type="text" class="form-control" id="id_user" name="id_user" aria-describedby="emailHelp" hidden>
 
-                          <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input name="username" type="text" class="form-control" id="username" value="<?= $row['username'] ?>" placeholder="Masukkan username anda" required aria-describedby="emailHelp">
-                          </div>
-                          <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input name="password" type="password" class="form-control" id="password" value="<?= $row['password'] ?>" placeholder="Masukkan password anda" required aria-describedby="emailHelp">
-                          </div>
-                          <div class="mb-3">
-                            <label for="nama" class="form-label">Nama Lengkap</label>
-                            <input name="nama" type="text" class="form-control" id="nama" value="<?= $row['nama_lengkap'] ?>" placeholder="Masukkan nama lengkap anda" required aria-describedby="emailHelp">
-                          </div>
-                          <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input name="email" type="email" class="form-control" id="email" value="<?= $row['email'] ?>"  placeholder="Masukkan email anda" required aria-describedby="emailHelp">
-                          </div>
-                          <div class="mb-3">
-                            <label for="no_hp" class="form-label">Nomor Hp</label>
-                            <input name="no_hp" type="number" class="form-control" id="no_hp" value="<?= $row['no_hp'] ?>" placeholder="Masukkan no hp anda" required aria-describedby="emailHelp">
-                          </div>
-                          <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
-                            <select name="role" id="role" class="form-select" aria-label="Default select example" required>
-                              <option selected disabled>-Pilih Role-</option>
-                              <option value="admin" <?= $row['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
-                              <option value="guru" <?= $row['role'] == 'guru' ? 'selected' : '' ?>>Guru</option>
-                              <option value="siswa" <?= $row['role'] == 'siswa' ? 'selected' : '' ?>>Siswa</option>
-                            </select>
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                        <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</a>
-                        <a type="submit" class="btn btn-primary">Simpan</a>
-                        </form>
-                      </div>
+                          <label for="username" class="form-label">Username</label>
+                          <input value="<?= $row['username'] ?>" type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Masukkan username anda">
+                        </div>
+                        <div class="mb-3">
+                          <label for="exampleInputPassword1" class="form-label">Password</label>
+                          <input value="<?= $row['password'] ?>" type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Masukkan password anda">
+                        </div>
+                        <div class="mb-3">
+                          <label for="nama" class="form-label">Nama Lengkap</label>
+                          <input value="<?= $row['nama_lengkap'] ?>" type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anda">
+                        </div>
+                        <div class="mb-3">
+                          <label for="email" class="form-label">Email</label>
+                          <input value="<?= $row['email'] ?>" type="email" class="form-control" id="email" name="email" placeholder="Masukkan email anda">
+                        </div>
+                        <div class="mb-3">
+                          <label for="no_hp" class="form-label">Nomor Hp</label>
+                          <input value="<?= $row['no_hp'] ?>" type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkan Nomor Hp anda">
+                        </div>
+                        <div class="mb-3">
+                          <select name="role" class="form-select" aria-label="Default select example">
+                            <option selected disabled>-- Pilih Role --</option>
+                            <option value="admin" <?= $row['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
+                            <option value="guru" <?= $row['role'] == 'guru' ? 'selected' : '' ?>>Guru</option>
+                            <option value="siswa" <?= $row['role'] == 'siswa' ? 'selected' : '' ?>>Siswa</option>
+                          </select>
+                        </div>
                     </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                      <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                    </form>
                   </div>
                 </div>
+              </div>
+
               <?php
-              endwhile; //penutup perulangan
+            endwhile; //penutup perulangan
               ?>
-            </tbody>
-          </table>
-        </div>
+          </tbody>
+        </table>
       </div>
-      <!--end::Row-->
-      <!--begin::Row-->
-      <!-- /.row (main row) -->
     </div>
-    <!--end::Container-->
+    <!--end::Row-->
+    <!--begin::Row-->
+    <!-- /.row (main row) -->
   </div>
+  </div>
+  <!--end::Container-->
   <!--end::App Content-->
 </main>
 
 <!-- Modal -->
-<div class="modal fade" id="tambah-user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data User</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- form -->
+        <!-- form tambah user -->
         <form action="action/aksi_user.php" method="POST">
-          <!-- untuk mengarah ke aksi tambah -->
-          <input type="text" name="aksi" id="" value="tambah" hidden>
-
           <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input name="username" type="text" class="form-control" id="username" placeholder="Masukkan username anda" required aria-describedby="emailHelp">
+            <!-- value tambah -->
+            <input type="text" hidden name="aksi" value="tambah" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input name="password" type="password" class="form-control" id="password" placeholder="Masukkan password anda" required aria-describedby="emailHelp">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Masukkan username anda">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Masukkan password anda">
           </div>
           <div class="mb-3">
             <label for="nama" class="form-label">Nama Lengkap</label>
-            <input name="nama" type="text" class="form-control" id="nama" placeholder="Masukkan nama lengkap anda" required aria-describedby="emailHelp">
+            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anda">
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input name="email" type="email" class="form-control" id="email" placeholder="Masukkan email anda" required aria-describedby="emailHelp">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email anda">
           </div>
           <div class="mb-3">
             <label for="no_hp" class="form-label">Nomor Hp</label>
-            <input name="no_hp" type="number" class="form-control" id="no_hp" placeholder="Masukkan no hp anda" required aria-describedby="emailHelp">
+            <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkan Nomor Hp anda">
           </div>
           <div class="mb-3">
-            <label for="role" class="form-label">Role</label>
-            <select name="role" id="role" class="form-select" aria-label="Default select example" required>
-              <option selected disabled>-Pilih Role-</option>
+            <select name="role" class="form-select" aria-label="Default select example">
+              <option selected disabled>-- Pilih Role --</option>
               <option value="admin">Admin</option>
               <option value="guru">Guru</option>
               <option value="siswa">Siswa</option>
@@ -181,10 +200,10 @@
           </div>
       </div>
       <div class="modal-footer">
-        <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</a>
-        <a type="submit" class="btn btn-primary">Simpan</a>
-        </form>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
       </div>
+      </form>
     </div>
   </div>
 </div>

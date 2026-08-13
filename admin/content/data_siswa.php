@@ -7,6 +7,7 @@
             <div class="row">
               <div class="col-sm-6">
                 <h1 class="mb-0 fs-3">Data Siswa</h1>
+
               </div>
               <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
@@ -47,25 +48,25 @@
                     <?php
                     $query_siswa = "SELECT * FROM siswa";
                     $result_siswa = mysqli_query($koneksi, $query_siswa);
-                    while($row = mysqli_fetch_array($result_siswa)) :
+                    while ($row = mysqli_fetch_array($result_siswa)) :
                     ?>
-                    <tr>
-                      <th scope="row"><?= $row['id_siswa'] ?></th>
-                      <td><?= $row['id_user'] ?></td>
-                      <td><?= $row['nis'] ?></td>
-                      <td><?= $row['nama_siswa'] ?></td>
-                      <td><?= $row['id_kelas'] ?></td>
-                      <td><?= $row['tgl_lahir'] ?></td>
-                      <td><?= $row['jenis_kelamin'] ?></td>
-                      <td><?= $row['alamat'] ?></td>
+                      <tr>
+                        <th scope="row"><?= $row['id_siswa'] ?></th>
+                        <td><?= $row['id_user'] ?></td>
+                        <td><?= $row['nis'] ?></td>
+                        <td><?= $row['nama_siswa'] ?></td>
+                        <td><?= $row['id_kelas'] ?></td>
+                        <td><?= $row['tgl_lahir'] ?></td>
+                        <td><?= $row['jenis_kelamin'] ?></td>
+                        <td><?= $row['alamat'] ?></td>
 
-                      <td>
-                        <div class="aksi">
-                          <a href="#" class="btn btn-warning">Edit</a>
-                          <a class="btn btn-danger" href="#">Hapus</a>
-                        </div>
-                      </td>
-                    </tr>
+                        <td>
+                          <div class="aksi">
+                            <a href="#" class="btn btn-warning">Edit</a>
+                            <a class="btn btn-danger" href="#">Hapus</a>
+                          </div>
+                        </td>
+                      </tr>
                     <?php
                     endwhile;
                     ?>

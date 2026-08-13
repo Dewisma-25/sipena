@@ -300,10 +300,14 @@ include ("../koneksi.php");
     ></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
     <script src="assets/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./assets/js/sweetalert.js"></script>
     <!--end::Required Plugin(AdminLTE)-->
     <!--begin::OverlayScrollbars Configure-->
+    <!-- sweetalert cdn -->
     <script>
-      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+
+      const SELECTOR_SIDEBAR_WRAPPERA = '.sidebar-wrapper';
       const Default = {
         scrollbarTheme: 'os-theme-light',
         scrollbarAutoHide: 'leave',
@@ -525,6 +529,8 @@ include ("../koneksi.php");
 
       const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
       sparkline3.render();
+
+      
     </script>
     <!--end::Script-->
   </body>
