@@ -37,13 +37,14 @@
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
-                      <th scope="col">ID User</th>
+                      <th scope="col">ID Siswa</th>
                       <th scope="col">Nis</th>
                       <th scope="col">Nama</th>
                       <th scope="col">ID Kelas</th>
                       <th scope="col">Tanggal Lahir</th>
                       <th scope="col">Jenis Kelamin</th>
                       <th scope="col">Alamat</th>
+                      <th scope="col">No HP</th>
                       <th scope="col">Aksi</th>
                     </tr>
                   </thead>
@@ -62,6 +63,7 @@
                         <td><?= $row['tgl_lahir'] ?></td>
                         <td><?= $row['jenis_kelamin'] ?></td>
                         <td><?= $row['alamat'] ?></td>
+                        <td><?= $row['no_hp'] ?></td>
 
                         <td>
                           <div class="aksi">
@@ -91,43 +93,52 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data User</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Siswa</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <!-- form tambah user -->
-              <form action="action/aksi_user.php" method="POST">
+              <form action="#" method="POST">
                 <div class="mb-3">
                   <!-- value tambah -->
                   <input type="text" hidden name="aksi" value="tambah" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
-                  <label for="username" class="form-label">Username</label>
-                  <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Masukkan username anda">
+                  <label for="id_siswa" class="form-label">ID Siswa</label>
+
+                  <select id="id_siswa" name="id_siswa" class="form-select" aria-label="Default select example">
+                    <option selected disabled>-- Pilih ID Siswa --</option>
+                  </select>
                 </div>
                 <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Masukkan password anda">
+                  <label for="nis" class="form-label">Nis</label>
+                  <input type="text" class="form-control" id="nis" name="nis" placeholder="Masukkan password anda">
                 </div>
                 <div class="mb-3">
-                  <label for="nama" class="form-label">Nama Lengkap</label>
+                  <label for="nama" class="form-label">Nama</label>
                   <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anda">
                 </div>
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email anda">
-                </div>
-                <div class="mb-3">
-                  <label for="no_hp" class="form-label">Nomor Hp</label>
-                  <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkan Nomor Hp anda">
-                </div>
-                <div class="mb-3">
-                  <select name="role" class="form-select" aria-label="Default select example">
-                    <option selected disabled>-- Pilih Role --</option>
-                    <option value="admin">Admin</option>
-                    <option value="guru">Guru</option>
-                    <option value="siswa">Siswa</option>
+                  <label for="id_kelas" class="form-label">Kelas</label>
+                  <select id="id_kelas" name="kelas" class="form-select" aria-label="Default select example">
+                    <option selected disabled>-- Pilih Kelas --</option>
                   </select>
+                </div>
+                <div class="mb-3">
+                  <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
+                  <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" placeholder="Masukkkan Tanggal Lahir Siswa">
+                </div>
+                <div class="mb-3">
+                  <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                  <select name="jenis_kelamin" class="form-select" aria-label="Default select example">
+                    <option selected disabled>-- Pilih Jenis Kelamin --</option>
+                    <option value="L">Laki-laki</option>
+                    <option value="P">Perempuan</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="no_hp" class="form-label">No HP</label>
+                  <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkkan Nomor HP Siswa">
                 </div>
             </div>
             <div class="modal-footer">
