@@ -65,7 +65,7 @@
                   <td>
                     <div class="aksi d-flex gap-2">
                       <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?= $row['id_user'] ?>">
-                        Edit
+                        <i class="bi bi-pencil-square"></i>
                       </button>
                       <form action="action/aksi_user.php" method="POST" class="m-0" id="formHapus-<?= $row['id_user'] ?>">
                         <div>
@@ -76,7 +76,7 @@
                           <input value="<?= $row['id_user']  ?>" type="hidden" class="form-control" id="id_user" name="id_user" aria-describedby="emailHelp" hidden>
                         </div>
                         <button type="button" class="btn btn-danger">
-                          Hapus
+                          <i class="bi bi-trash"></i>
                         </button>
                       </form>
                     </div>
@@ -96,43 +96,45 @@
                         <!-- form edit user -->
                         <form action="action/aksi_user.php" method="POST">
                           <div class="mb-3">
+                            <label for="id" class="form-label">ID User</label>
+                            <input value="<?= $row['id_user'] ?>" type="text" class="form-control" id="exampleInputPassword1" name="id_user" readonly>
+                          </div>
+                          <div class="mb-3">
                             <!-- value edit -->
                             <input value="edit" type="text" class="form-control" id="edit" name="aksi" aria-describedby="emailHelp" hidden>
 
-                            <!-- value id_user -->
-                            <input value="<?= $row['id_user']  ?>" type="text" class="form-control" id="id_user" name="id_user" aria-describedby="emailHelp" hidden>
-
                             <label for="username" class="form-label">Username</label>
-                            <input value="<?= $row['username'] ?>" type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Masukkan username anda">
+                            <input value="<?= $row['username'] ?>" type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Masukkan username anda" required>
                           </div>
                           <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input value="<?= $row['password'] ?>" type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Masukkan password anda">
+                            <input value="<?= $row['password'] ?>" type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Masukkan password anda" required>
                           </div>
                           <div class="mb-3">
                             <label for="nama" class="form-label">Nama Lengkap</label>
-                            <input value="<?= $row['nama_lengkap'] ?>" type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anda">
+                            <input value="<?= $row['nama_lengkap'] ?>" type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anda" required>
                           </div>
                           <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input value="<?= $row['email'] ?>" type="email" class="form-control" id="email" name="email" placeholder="Masukkan email anda">
+                            <input value="<?= $row['email'] ?>" type="email" class="form-control" id="email" name="email" placeholder="Masukkan email anda" required>
                           </div>
                           <div class="mb-3">
                             <label for="no_hp" class="form-label">Nomor Hp</label>
-                            <input value="<?= $row['no_hp'] ?>" type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkan Nomor Hp anda">
+                            <input value="<?= $row['no_hp'] ?>" type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkan Nomor Hp anda" required>
                           </div>
                           <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
                             <select name="role" class="form-select" aria-label="Default select example">
-                              <option selected disabled>-- Pilih Role --</option>
-                              <option value="admin" <?= $row['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
-                              <option value="guru" <?= $row['role'] == 'guru' ? 'selected' : '' ?>>Guru</option>
-                              <option value="siswa" <?= $row['role'] == 'siswa' ? 'selected' : '' ?>>Siswa</option>
+                              <option value="<?= $row['role'] ?>"><?= $row['role'] ?></option>
+                              <option value="admin">Admin</option>
+                              <option value="guru">Guru</option>
+                              <option value="siswa">Siswa</option>
                             </select>
                           </div>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
                       </div>
                       </form>
                     </div>
@@ -191,6 +193,7 @@
             <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkan Nomor Hp anda">
           </div>
           <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
             <select name="role" class="form-select" aria-label="Default select example">
               <option selected disabled>-- Pilih Role --</option>
               <option value="admin">Admin</option>
@@ -207,10 +210,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
