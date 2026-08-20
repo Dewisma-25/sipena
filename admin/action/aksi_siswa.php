@@ -20,5 +20,18 @@ if ($aksi = $_POST['aksi']) {
         mysqli_query($koneksi, $query);
 
         header("location: ../index.php?menu=data_siswa&pesan=berhasil");
+    } elseif ($aksi == 'edit') {
+        $id = $_POST['id'];
+        $id_user = $_POST['id_user'];
+        $nis = $_POST['nis'];
+        $nama = $_POST['nama'];
+        $kelas = $_POST['kelas'];
+        $tgl_lahir = $_POST['tgl_lahir'];
+        $jenis_kelamin = $_POST['jenis_kelamin'];
+        $alamat = $_POST['alamat'];
+        $no_hp = $_POST['no_hp'];
+
+        $query = "UPDATE siswa SET
+                    ";
     }
 }
