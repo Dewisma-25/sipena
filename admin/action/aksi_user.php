@@ -14,7 +14,7 @@ if ($aksi = $_POST['aksi']) {
 
         $result = mysqli_query($koneksi, $query);
 
-        header("location: ../index.php?menu=data_user");
+        header("location: ../index.php?menu=data_user&pesan=berhasil");
     } elseif ($aksi == 'edit') {
         $id_user = $_POST['id_user'];
         $username = $_POST['username'];
@@ -35,7 +35,7 @@ if ($aksi = $_POST['aksi']) {
             
         $result = mysqli_query($koneksi, $query2);
 
-        header("location: ../index.php?menu=data_user");
+        header("location: ../index.php?menu=data_user&pesan=edit");
     } elseif ($aksi == 'hapus') {
         $id_user = $_POST['id_user'];
 

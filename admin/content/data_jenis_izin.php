@@ -44,9 +44,9 @@
                   </thead>
                   <tbody>
                     <?php
-                    $query_kelas = "SELECT * FROM jenis_izin";
-                    $result_kelas = mysqli_query($koneksi, $query_kelas);
-                    while ($row = mysqli_fetch_array($result_kelas)) :
+                    $query_jenis_izin = "SELECT * FROM jenis_izin";
+                    $result_jenis_izin = mysqli_query($koneksi, $query_jenis_izin);
+                    while ($row = mysqli_fetch_array($result_jenis_izin)) :
                     ?>
                       <tr>
                         <th scope="row"><?= $row['id_jenis'] ?></th>
@@ -54,11 +54,47 @@
                         <td><?= $row['deskripsi'] ?></td>
                         <td>
                           <div class="aksi">
-                            <a href="#" class="btn btn-warning">Edit</a>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editJenisIzin<?= $row['id_jenis'] ?>">
+                              <i class="bi bi-pencil-square"></i>
+                            </button>
                             <a class="btn btn-danger" href="#">Hapus</a>
                           </div>
                         </td>
                       </tr>
+                      <!-- Modal edit  -->
+                      <!-- Modal -->
+                      <div class="modal fade modal-lg" id="editJenisIzin<?= $row['id_jenis'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Jenis Izin</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <!-- form tambah user -->
+                              <form action="./action/aksi_jenis_izin.php" method="POST">
+                                <input type="text" value="edit" name="aksi" hidden>
+                                <div class="mb-3">
+                                  <label for="id" class="form-label">ID</label>
+                                  <input type="text" value="<?= $row['id_jenis'] ?>" class="form-control" id="id" name="id_jenis" readonly>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="nama_jenis" class="form-label">Nama Jenis Izin</label>
+                                  <input value="<?= $row['nama_jenis'] ?>" type="text" class="form-control" id="nama_jenis" name="nama_jenis" placeholder="Masukkan Nama Jenis Izin">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="deskripsi" class="form-label">Deskripsi</label>
+                                  <input value="<?= $row['deskripsi'] ?>" type="text" class="form-control" id="deskripsi" name="deskripsi" placeholder="Masukkan Deskripsi">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                              <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
                     <?php
                     endwhile;
                     ?>
@@ -85,7 +121,8 @@
             </div>
             <div class="modal-body">
               <!-- form tambah user -->
-              <form action="#" method="POST">
+              <form action="./action/aksi_jenis_izin.php" method="POST">
+                <input type="text" value="tambah" name="aksi" hidden>
                 <div class="mb-3">
                   <label for="nama_jenis" class="form-label">Nama Jenis Izin</label>
                   <input type="text" class="form-control" id="nama_jenis" name="nama_jenis" placeholder="Masukkan Nama Jenis Izin">
