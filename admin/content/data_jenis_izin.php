@@ -57,7 +57,9 @@
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editJenisIzin<?= $row['id_jenis'] ?>">
                               <i class="bi bi-pencil-square"></i>
                             </button>
-                            <a class="btn btn-danger" href="#">Hapus</a>
+                            <button type="button" class="btn btn-danger">
+                              <i class="bi bi-trash"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>

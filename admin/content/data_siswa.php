@@ -37,10 +37,10 @@
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
-                      <th scope="col">ID Siswa</th>
+                      <th scope="col">Nama Siswa</th>
                       <th scope="col">Nis</th>
                       <th scope="col">Nama</th>
-                      <th scope="col">ID Kelas</th>
+                      <th scope="col">Nama Kelas</th>
                       <th scope="col">Tanggal Lahir</th>
                       <th scope="col">Jenis Kelamin</th>
                       <th scope="col">Alamat</th>
@@ -50,25 +50,57 @@
                   </thead>
                   <tbody>
                     <?php
-                    $query_siswa = "SELECT * FROM siswa";
+                    $query_siswa = "SELECT 
+                                      siswa.id_siswa,
+                                      siswa.id_user,
+                                      siswa.nis,
+                                      siswa.nama_siswa,
+                                      kelas.nama_kelas,
+                                      siswa.id_kelas,
+                                      siswa.tgl_lahir,
+                                      siswa.jenis_kelamin,
+                                      siswa.alamat,
+                                      siswa.no_hp,
+                                      users.nama_lengkap
+                                      FROM siswa
+                                      LEFT JOIN users ON users.id_user = siswa.id_user
+                                      LEFT JOIN kelas ON kelas.id_kelas = siswa.id_kelas";
+
+                    $query_user = "SELECT
+                                      users.id_user,
+                                      users.nama_lengkap
+                                      FROM users
+                                      WHERE role = 'siswa'";
+
+                    $query_kelas = "SELECT
+                                      kelas.id_kelas,
+                                      kelas.nama_kelas
+                                      FROM kelas";
+
+                    $result_user = mysqli_query($koneksi, $query_user);
+                    $result_kelas = mysqli_query($koneksi, $query_kelas);
                     $result_siswa = mysqli_query($koneksi, $query_siswa);
                     while ($row = mysqli_fetch_array($result_siswa)) :
                     ?>
                       <tr>
                         <th scope="row"><?= $row['id_siswa'] ?></th>
-                        <td><?= $row['id_user'] ?></td>
+                        <td><?= $row['nama_lengkap'] ?></td>
                         <td><?= $row['nis'] ?></td>
                         <td><?= $row['nama_siswa'] ?></td>
-                        <td><?= $row['id_kelas'] ?></td>
+                        <td><?= $row['nama_kelas'] ?></td>
                         <td><?= $row['tgl_lahir'] ?></td>
                         <td><?= $row['jenis_kelamin'] ?></td>
                         <td><?= $row['alamat'] ?></td>
                         <td><?= $row['no_hp'] ?></td>
 
                         <td>
-                          <div class="aksi">
-                            <a href="#" class="btn btn-warning">Edit</a>
-                            <a class="btn btn-danger" href="#">Hapus</a>
+                          <div class="aksi d-flex gap-1">
+                            <button type="button" class="btn btn-warning">
+                              <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger">
+                              <i class="bi bi-trash"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -98,7 +130,7 @@
             </div>
             <div class="modal-body">
               <!-- form tambah user -->
-              <form action="#" method="POST">
+              <form action="./action/aksi_siswa.php" method="POST">
                 <div class="mb-3">
                   <!-- value tambah -->
                   <input type="text" hidden name="aksi" value="tambah" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -106,8 +138,11 @@
                 <div class="mb-3">
                   <label for="id_siswa" class="form-label">ID Siswa</label>
 
-                  <select id="id_siswa" name="id_siswa" class="form-select" aria-label="Default select example">
+                  <select id="id_siswa" name="id_user" class="form-select" aria-label="Default select example">
                     <option selected disabled>-- Pilih ID Siswa --</option>
+                    <?php while ($user = mysqli_fetch_array($result_user)) : ?>
+                      <option value="<?= $user['id_user'] ?>"><?= $user['nama_lengkap'] ?></option>
+                    <?php endwhile ?>
                   </select>
                 </div>
                 <div class="mb-3">
@@ -122,6 +157,9 @@
                   <label for="id_kelas" class="form-label">Kelas</label>
                   <select id="id_kelas" name="kelas" class="form-select" aria-label="Default select example">
                     <option selected disabled>-- Pilih Kelas --</option>
+                    <?php while ($kelas = mysqli_fetch_array($result_kelas)) : ?>
+                      <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['nama_kelas'] ?></option>
+                    <?php endwhile ?>
                   </select>
                 </div>
                 <div class="mb-3">
@@ -135,6 +173,10 @@
                     <option value="L">Laki-laki</option>
                     <option value="P">Perempuan</option>
                   </select>
+                </div>
+                <div class="mb-3">
+                  <label for="alamat" class="form-label">Alamat</label>
+                  <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkkan Alamat Siswa">
                 </div>
                 <div class="mb-3">
                   <label for="no_hp" class="form-label">No HP</label>
