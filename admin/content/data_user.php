@@ -33,7 +33,7 @@
       <!--begin::Row-->
       <div class="row">
         <div class="col-lg-12">
-          <table class="table table-striped table-hover">
+          <table id="example" class="table table-striped table-hover">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -75,9 +75,27 @@
                           <!-- value id_user -->
                           <input value="<?= $row['id_user']  ?>" type="hidden" class="form-control" id="id_user" name="id_user" aria-describedby="emailHelp" hidden>
                         </div>
-                        <button type="button" class="btn btn-danger">
+                        <button type="button" class="btn btn-danger" id="hapus<?= $row['id_user']  ?>">
                           <i class="bi bi-trash"></i>
                         </button>
+                        <script>
+                          document.getElementById("hapus<?= $row['id_user'] ?>").addEventListener("click", function(event) {
+                            event.preventDefault();
+                            Swal.fire({
+                              title: "Apa Anda Yakin?",
+                              text: "Anda Tidak Bisa Mengembalikan Data Yang Sudah Dihapus!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Ya, Hapus Data Ini!"
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                window.location.href = "action/aksi_user.php?aksi=hapus&id_user=<?= $row['id_user'] ?>"
+                              };
+                            });
+                          });
+                        </script>
                       </form>
                     </div>
                   </td>
@@ -195,7 +213,7 @@
           <div class="mb-3">
             <label for="role" class="form-label">Role</label>
             <select name="role" class="form-select" aria-label="Default select example">
-              <option selected disabled>-- Pilih Role --</option>
+              <option selewcted disabled>-- Pilih Role --</option>
               <option value="admin">Admin</option>
               <option value="guru">Guru</option>
               <option value="siswa">Siswa</option>

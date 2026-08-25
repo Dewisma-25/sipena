@@ -30,3 +30,13 @@ if ($aksi == 'tambah') {
 
     header("location: ../index.php?menu=data_kelas&pesan=edit");
 }
+
+if ($aksi = $_GET['aksi']) {
+    $id = $_GET['id_kelas'];
+
+    $query = "DELETE FROM kelas WHERE id_kelas = $id";
+
+    $result = mysqli_query($koneksi, $query);
+
+    header("location: ../index.php?menu=data_kelas&pesan=hapus");
+}

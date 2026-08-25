@@ -32,6 +32,28 @@ if ($aksi = $_POST['aksi']) {
         $no_hp = $_POST['no_hp'];
 
         $query = "UPDATE siswa SET
-                    ";
+                  id_user = '$id_user',
+                  nis = '$nis',
+                  nama_siswa = '$nama',
+                  id_kelas = '$kelas',
+                  tgl_lahir = '$tgl_lahir',
+                  jenis_kelamin = '$jenis_kelamin',
+                  alamat = '$alamat',
+                  no_hp = '$no_hp'
+                  WHERE id_siswa = '$id'  ";
+
+        mysqli_query($koneksi, $query);
+
+        header("location: ../index.php?menu=data_siswa&pesan=edit");
     }
+}
+
+if ($aksi = $_GET['aksi']) {
+    $id = $_GET['id_siswa'];
+
+    $query = "DELETE FROM siswa WHERE id_siswa = $id";
+
+    $result = mysqli_query($koneksi, $query);
+
+    header("location: ../index.php?menu=data_siswa&pesan=hapus");
 }

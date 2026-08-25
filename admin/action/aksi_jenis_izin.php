@@ -28,3 +28,13 @@ if ($aksi = $_POST['aksi']) {
         header("location: ../index.php?menu=data_jenis_izin&pesan=edit");
     }
 }
+
+if ($aksi = $_GET['aksi']) {
+    $id = $_GET['id_jenis'];
+
+    $query = "DELETE FROM jenis_izin WHERE id_jenis = $id";
+
+    $result = mysqli_query($koneksi, $query);
+
+    header("location: ../index.php?menu=data_jenis_izin&pesan=hapus");
+}

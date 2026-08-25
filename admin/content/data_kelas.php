@@ -67,6 +67,7 @@
 
                     $result_kelas = mysqli_query($koneksi, $query_kelas);
                     $result_guru = mysqli_query($koneksi, $query_guru);
+                    $data_guru = mysqli_fetch_all($result_guru, MYSQLI_ASSOC);
                     while ($row = mysqli_fetch_array($result_kelas)) :
                     ?>
                       <tr>
@@ -81,9 +82,27 @@
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editkelas<?= $row['id_kelas'] ?>">
                               <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger">
-                              <i class="bi bi-trash"></i>
-                            </button>
+                        <button type="button" class="btn btn-danger" id="hapus<?= $row['id_kelas']  ?>">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                        <script>
+                          document.getElementById("hapus<?= $row['id_kelas'] ?>").addEventListener("click", function(event) {
+                            event.preventDefault();
+                            Swal.fire({
+                              title: "Apa Kamu Yakin?",
+                              text: "Anda Tidak Bisa Mengembalikan Data Yang Sudah Dihapus!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Ya, Hapus Data Ini!"
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                window.location.href = "action/aksi_kelas.php?aksi=hapus&id_kelas=<?= $row['id_kelas'] ?>"
+                              };
+                            });
+                          });
+                        </script>
                           </div>  
                         </td>
                       </tr>
@@ -122,9 +141,9 @@
                                 <div class="mb-3">
                                   <label for="wali_kelas" class="form-label">Wali Kelas</label>
                                   <select name="wali_kelas" class="form-select" aria-label="Default select example">
-                                    <?php while ($guru = mysqli_fetch_array($result_guru)) : ?>
-                                      <option value="<?= $guru['id_user'] ?>" <?= $guru['id_user'] == $row['wali_kelas'] ? 'selected' : '' ?>><?= $guru['nama_lengkap'] ?></option>
-                                    <?php endwhile ?>
+                                    <?php foreach ($data_guru as $guru) : ?>
+                                        <option value="<?= $guru['id_user'] ?>"<?= $guru['id_user'] == $row['wali_kelas'] ? 'selected' : '' ?>><?= $guru['nama_lengkap'] ?></option>
+                                    <?php endforeach ?>
                                   </select>
                                 </div>
                             </div>

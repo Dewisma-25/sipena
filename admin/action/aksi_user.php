@@ -32,16 +32,19 @@ if ($aksi = $_POST['aksi']) {
             no_hp='$no_hp', 
             role='$role' 
             WHERE id_user='$id_user'";
-            
+
         $result = mysqli_query($koneksi, $query2);
 
         header("location: ../index.php?menu=data_user&pesan=edit");
-    } elseif ($aksi == 'hapus') {
-        $id_user = $_POST['id_user'];
-
-        $query3 = "DELETE FROM users WHERE id_user = $id_user";
-        $result = mysqli_query($koneksi, $query3);
-
-        header("location: ../index.php?menu=data_user");
     }
+};
+
+if ($aksi = $_GET['aksi']) {
+    $id = $_GET['id_user'];
+
+    $query = "DELETE FROM users WHERE id_user = $id";
+
+    $result = mysqli_query($koneksi, $query);
+
+    header("location: ../index.php?menu=data_user&pesan=hapus");
 }

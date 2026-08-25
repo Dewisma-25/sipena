@@ -99,6 +99,13 @@ include("../koneksi.php");
   <link href="
   https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.min.css
   " rel="stylesheet">
+
+  <!-- data tables -->
+  <link href="https://cdn.datatables.net/v/dt/dt-3.0.2/datatables.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/buttons/4.0.2/css/buttons.dataTables.min.css" rel="stylesheet">
+  <link rel="https://cdn.datatables.net/3.0.2/css/dataTables.dataTables.min.css" href="stylesheet">
+  <link rel="https://cdn.datatables.net/buttons/4.0.2/css/buttons.dataTables.min.css" href="stylesheet">
+
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -294,10 +301,32 @@ include("../koneksi.php");
   <script src="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.all.min.js
 "></script>
+  <!-- data tables -->
+  <script src="https://cdn.datatables.net/v/dt/dt-3.0.2/datatables.min.js"></script>
+  <script src="https://cdn.datatables.net/3.0.2/js/dataTables.min.js"></script>
+
+  <script src="https://cdn.datatables.net/buttons/4.0.2/js/dataTables.buttons.min.js"></script>
+
+  <script src="https://cdn.datatables.net/buttons/4.0.2/js/buttons.dataTables.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/pdfmake.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/vfs_fonts.js"></script>  
+  <script>
+    new DataTable('#example', {
+      layout: {
+        topStart: {
+          buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+        }
+      }
+    });
+  </script>
   <!--end::Required Plugin(AdminLTE)-->
   <!--begin::OverlayScrollbars Configure-->
   <script>
-    const SELECTOR_SIDEBAR_WRAPPERA = '.sidebar-wrapper';
+    const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
     const Default = {
       scrollbarTheme: 'os-theme-light',
       scrollbarAutoHide: 'leave',
@@ -512,22 +541,32 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.all.min.js
     //sweetalert tambah users
     <?php
     if ($_GET['pesan'] == 'berhasil') { ?>
-        Swal.fire({
-          title: "Berhasil!",
-          icon: "success",
-          text : "Data User Berhasil Ditambahkan"
-        });
+      Swal.fire({
+        title: "Berhasil!",
+        icon: "success",
+        text: "Data Berhasil Ditambahkan"
+      });
     <?php }
     ?>
 
     //sweetalert edit users
     <?php
     if ($_GET['pesan'] == 'edit') { ?>
-        Swal.fire({
-          title: "Berhasil!",
-          icon: "info",
-          text : "Data User Berhasil Diubah"
-        });
+      Swal.fire({
+        title: "Berhasil!",
+        icon: "info",
+        text: "Data Berhasil Diubah"
+      });
+    <?php }
+    ?>
+
+    <?php
+    if ($_GET['pesan'] == 'hapus') { ?>
+      Swal.fire({
+        title: "Berhasil!",
+        icon: "success",
+        text: "Data Berhasil Di Hapus"
+      });
     <?php }
     ?>
   </script>

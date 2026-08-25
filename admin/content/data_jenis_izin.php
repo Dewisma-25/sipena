@@ -27,7 +27,7 @@
         <div class="app-content">
           <!--begin::Container-->
           <div class="container-fluid">
-            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahKelasModal">
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahJenisIzinModal">
               + Tambah Jenis Izin
             </button>
             <!--begin::Row-->
@@ -57,9 +57,27 @@
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editJenisIzin<?= $row['id_jenis'] ?>">
                               <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger">
-                              <i class="bi bi-trash"></i>
-                            </button>
+                        <button type="button" class="btn btn-danger" id="hapus<?= $row['id_jenis']  ?>">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                        <script>
+                          document.getElementById("hapus<?= $row['id_jenis'] ?>").addEventListener("click", function(event) {
+                            event.preventDefault();
+                            Swal.fire({
+                              title: "Apa Anda Yakin?",
+                              text: "Anda Tidak Bisa Mengembalikan Data Yang Sudah Dihapus!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Ya, Hapus Data Ini!"
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                window.location.href = "action/aksi_jenis_izin.php?aksi=hapus&id_jenis=<?= $row['id_jenis'] ?>"
+                              };
+                            });
+                          });
+                        </script>
                           </div>
                         </td>
                       </tr>
@@ -113,8 +131,8 @@
         <!--end::App Content-->
       </main>
 
-      <!-- Modal Tambah Siswa -->
-      <div class="modal fade modal-lg" id="tambahKelasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- Modal Tambah jenis Izin -->
+      <div class="modal fade modal-lg" id="tambahJenisIzinModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">

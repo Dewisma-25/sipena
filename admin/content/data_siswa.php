@@ -101,9 +101,27 @@
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editSiswa<?= $row['id_siswa'] ?>">
                               <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button type="button" class="btn btn-danger">
-                              <i class="bi bi-trash"></i>
-                            </button>
+                        <button type="button" class="btn btn-danger" id="hapus<?= $row['id_siswa']  ?>">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                        <script>
+                          document.getElementById("hapus<?= $row['id_siswa'] ?>").addEventListener("click", function(event) {
+                            event.preventDefault();
+                            Swal.fire({
+                              title: "Apa Kamu Yakin?",
+                              text: "Anda Tidak Bisa Mengembalikan Data Yang Sudah Dihapus!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Ya, Hapus Data Ini!"
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                window.location.href = "action/aksi_siswa.php?aksi=hapus&id_siswa=<?= $row['id_siswa'] ?>"
+                              };
+                            });
+                          });
+                        </script>
                           </div>
                         </td>
                       </tr>
@@ -116,14 +134,14 @@
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                              <!-- form tambah siswa -->
+                              <!-- form edit siswa -->
                               <form action="./action/aksi_siswa.php" method="POST">
                                 <div class="mb-3">
                                   <!-- value edit -->
                                   <input type="text" hidden name="aksi" value="edit" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                 </div>
                                 <div class="mb-3">
-                                  <!-- value edit nya -->
+                                  <!-- value id nya -->
                                   <label for="id" class="form-label">ID</label>
                                   <input value="<?= $row['id_siswa'] ?>" type="text" class="form-control" id="id" name="id" readonly>
                                 </div>
@@ -132,7 +150,7 @@
                                   <select id="id_siswa" name="id_user" class="form-select" aria-label="Default select example">
                                     <option disabled>-- Pilih Siswa --</option>
                                     <?php foreach ($users as $user) : ?>
-                                      <option value="$=<?= $user['id_user'] ?>" <?= $user['id_user'] == $row['id_user'] ? 'selected' : '' ?>><?= $user['nama_lengkap'] ?></option>
+                                      <option value="<?= $user['id_user'] ?>" <?= $user['id_user'] == $row['id_user'] ? 'selected' : '' ?>><?= $user['nama_lengkap'] ?></option>
                                     <?php endforeach ?>
                                   </select>
                                 </div>
