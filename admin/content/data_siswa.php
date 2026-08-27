@@ -33,7 +33,7 @@
             <!--begin::Row-->
             <div class="row">
               <div class="col-lg-12">
-                <table class="table table-striped table-hover">
+                <table id="example" class="table table-striped table-hover">
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
@@ -50,21 +50,7 @@
                   </thead>
                   <tbody>
                     <?php
-                    $query_siswa = "SELECT 
-                                      siswa.id_siswa,
-                                      siswa.id_user,
-                                      siswa.nis,
-                                      siswa.nama_siswa,
-                                      kelas.nama_kelas,
-                                      siswa.id_kelas,
-                                      siswa.tgl_lahir,
-                                      siswa.jenis_kelamin,
-                                      siswa.alamat,
-                                      siswa.no_hp,
-                                      users.nama_lengkap
-                                      FROM siswa
-                                      LEFT JOIN users ON users.id_user = siswa.id_user
-                                      LEFT JOIN kelas ON kelas.id_kelas = siswa.id_kelas";
+                    $query_siswa = "SELECT s.*, k.nama_kelas FROM siswa s LEFT JOIN kelas k ON s.id_kelas = k.id_kelas";
 
                     $query_user = "SELECT
                                       users.id_user,
@@ -72,22 +58,12 @@
                                       FROM users
                                       WHERE role = 'siswa'";
 
-                    $query_kelas = "SELECT
-                                      kelas.id_kelas,
-                                      kelas.nama_kelas
-                                      FROM kelas";
-
-                    $result_user = mysqli_query($koneksi, $query_user);
-                    $users = mysqli_fetch_all($result_user, MYSQLI_ASSOC);
-                    $result_kelas = mysqli_query($koneksi, $query_kelas);
-                    $data_kelas = mysqli_fetch_all($result_kelas, MYSQLI_ASSOC);
-
                     $result_siswa = mysqli_query($koneksi, $query_siswa);
                     while ($row = mysqli_fetch_array($result_siswa)) :
                     ?>
                       <tr>
                         <th scope="row"><?= $row['id_siswa'] ?></th>
-                        <td><?= $row['nama_lengkap'] ?></td>
+                        <td><?= $row['nama_siswa'] ?></td>
                         <td><?= $row['nis'] ?></td>
                         <td><?= $row['nama_siswa'] ?></td>
                         <td><?= $row['nama_kelas'] ?></td>
@@ -98,105 +74,110 @@
 
                         <td>
                           <div class="aksi d-flex gap-1">
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editSiswa<?= $row['id_siswa'] ?>">
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $row['id_siswa'] ?>">
                               <i class="bi bi-pencil-square"></i>
                             </button>
-                        <button type="button" class="btn btn-danger" id="hapus<?= $row['id_siswa']  ?>">
-                          <i class="bi bi-trash"></i>
-                        </button>
-                        <script>
-                          document.getElementById("hapus<?= $row['id_siswa'] ?>").addEventListener("click", function(event) {
-                            event.preventDefault();
-                            Swal.fire({
-                              title: "Apa Kamu Yakin?",
-                              text: "Anda Tidak Bisa Mengembalikan Data Yang Sudah Dihapus!",
-                              icon: "warning",
-                              showCancelButton: true,
-                              confirmButtonColor: "#3085d6",
-                              cancelButtonColor: "#d33",
-                              confirmButtonText: "Ya, Hapus Data Ini!"
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                window.location.href = "action/aksi_siswa.php?aksi=hapus&id_siswa=<?= $row['id_siswa'] ?>"
-                              };
-                            });
-                          });
-                        </script>
+                            <button type="button" class="btn btn-danger" id="hapus<?= $row['id_siswa']  ?>">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                            <script>
+                              document.getElementById("hapus<?= $row['id_siswa'] ?>").addEventListener("click", function(event) {
+                                event.preventDefault();
+                                Swal.fire({
+                                  title: "Apa Kamu Yakin?",
+                                  text: "Anda Tidak Bisa Mengembalikan Data Yang Sudah Dihapus!",
+                                  icon: "warning",
+                                  showCancelButton: true,
+                                  confirmButtonColor: "#3085d6",
+                                  cancelButtonColor: "#d33",
+                                  confirmButtonText: "Ya, Hapus Data Ini!"
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    window.location.href = "action/aksi_siswa.php?aksi=hapus&id_siswa=<?= $row['id_siswa'] ?>"
+                                  };
+                                });
+                              });
+                            </script>
                           </div>
                         </td>
                       </tr>
-                      <!-- modal edit siswa -->
-                      <div class="modal fade modal-lg" id="editSiswa<?= $row['id_siswa'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                      <!-- Modal Edit -->
+                      <div class="modal fade" id="edit<?= $row['id_siswa'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Siswa</h1>
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data</h1>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                              <!-- form edit siswa -->
-                              <form action="./action/aksi_siswa.php" method="POST">
+                              <form action="action/aksi_siswa.php" method="post">
+                                <!-- untuk mengarahkan ke aksi tambah -->
+                                <input type="text" name="aksi" value="edit" id="" hidden>
+                                <!-- batas -->
                                 <div class="mb-3">
-                                  <!-- value edit -->
-                                  <input type="text" hidden name="aksi" value="edit" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                  <label for="id" class="form-label">ID Siswa</label>
+                                  <input type="number" class="form-control" id="id" value="<?= $row['id_siswa'] ?>" aria-describedby="emailHelp" name="id" readonly>
                                 </div>
                                 <div class="mb-3">
-                                  <!-- value id nya -->
-                                  <label for="id" class="form-label">ID</label>
-                                  <input value="<?= $row['id_siswa'] ?>" type="text" class="form-control" id="id" name="id" readonly>
-                                </div>
-                                <div class="mb-3">
-                                  <label for="id_siswa" class="form-label">ID Siswa</label>
-                                  <select id="id_siswa" name="id_user" class="form-select" aria-label="Default select example">
-                                    <option disabled>-- Pilih Siswa --</option>
-                                    <?php foreach ($users as $user) : ?>
-                                      <option value="<?= $user['id_user'] ?>" <?= $user['id_user'] == $row['id_user'] ? 'selected' : '' ?>><?= $user['nama_lengkap'] ?></option>
-                                    <?php endforeach ?>
+                                  <label for="id_user" class="form-label">ID User</label>
+                                  <select name="id_user" class="form-select mb-3" aria-label="Default select example" required>
+                                    <option value="<?= $row['id_user'] ?>" disabled>- Pilih Siswa -</option>
+                                    <?php
+                                    $query_user = "SELECT * FROM users WHERE role = 'siswa'";
+                                    $result_user = mysqli_query($koneksi, $query_user);
+                                    while ($row_users = mysqli_fetch_array($result_user)) :
+                                    ?>
+                                      <option value="<?= $row_users['id_user'] ?>"><?= $row_users['nama_lengkap'] ?> - <?= $row_users['username'] ?></option>
+                                    <?php endwhile; ?>
                                   </select>
                                 </div>
                                 <div class="mb-3">
-                                  <label for="nis" class="form-label">Nis</label>
-                                  <input value="<?= $row['nis'] ?>" type="text" class="form-control" id="nis" name="nis" placeholder="Masukkan password anda">
+                                  <label for="nis" class="form-label">NIS</label>
+                                  <input type="number" class="form-control" id="nis" value="<?= $row['nis'] ?>" aria-describedby="emailHelp" name="nis" required>
                                 </div>
                                 <div class="mb-3">
-                                  <label for="nama" class="form-label">Nama</label>
-                                  <input value="<?= $row['nama_siswa'] ?>" type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama anda">
+                                  <label for="nama" class="form-label">Nama Siswa</label>
+                                  <input type="text" class="form-control" id="nama" value="<?= $row['nama_siswa'] ?>" aria-describedby="emailHelp" name="nama" required>
                                 </div>
                                 <div class="mb-3">
                                   <label for="id_kelas" class="form-label">Kelas</label>
-                                  <select id="id_kelas" name="kelas" class="form-select" aria-label="Default select example">
-                                    <option selected disabled>-- Pilih Kelas --</option>
-                                    <?php foreach ($data_kelas as $kelas) : ?>
-                                      <option value="<?= $kelas['id_kelas'] ?>" <?= $kelas['id_kelas'] == $row['id_kelas'] ? 'selected' : '' ?>><?= $kelas['nama_kelas'] ?></option>
-                                    <?php endforeach ?>
+                                  <select name="kelas" class="form-select mb-3" aria-label="Default select example" required>
+                                    <option value="<?= $row['id_kelas'] ?>" disabled>- Pilih Kelas -</option>
+                                    <?php
+                                    $query_kelas = "SELECT * FROM kelas";
+                                    $result_kelas = mysqli_query($koneksi, $query_kelas);
+                                    while ($row_kelas = mysqli_fetch_array($result_kelas)) :
+                                    ?>
+                                      <option value="<?= $row_kelas['id_kelas'] ?>"><?= $row_kelas['nama_kelas'] ?> - <?= $row_kelas['jurusan'] ?></option>
+                                    <?php endwhile; ?>
                                   </select>
                                 </div>
                                 <div class="mb-3">
-                                  <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
-                                  <input value="<?= $row['tgl_lahir'] ?>" type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" placeholder="Masukkkan Tanggal Lahir Siswa">
+                                  <label for="born" class="form-label">Tanggal Lahir</label>
+                                  <input type="date" class="form-control" id="email" value="<?= $row['tgl_lahir'] ?>" aria-describedby="emailHelp" name="tgl_lahir" required>
                                 </div>
                                 <div class="mb-3">
-                                  <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                  <select name="jenis_kelamin" class="form-select" aria-label="Default select example">
-                                    <option selected disabled>-- Pilih Jenis Kelamin --</option>
-                                    <option value="L">Laki-laki</option>
+                                  <label for="gender" class="form-label">Jenis Kelamin</label>
+                                  <select name="jenis_kelamin" class="form-select mb-3" aria-label="Default select example" required>
+                                    <option value="<?= $row['jenis_kelamin'] ?>" disabled>- Pilih Jenis Kelamin -</option>
+                                    <option value="L">Laki - Laki</option>
                                     <option value="P">Perempuan</option>
                                   </select>
                                 </div>
                                 <div class="mb-3">
                                   <label for="alamat" class="form-label">Alamat</label>
-                                  <input value="<?= $row['alamat'] ?>" type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkkan Alamat Siswa">
+                                  <input type="text" class="form-control" id="alamat" value="<?= $row['alamat'] ?>" aria-describedby="emailHelp" name="alamat" required>
                                 </div>
                                 <div class="mb-3">
-                                  <label for="no_hp" class="form-label">No HP</label>
-                                  <input value="<?= $row['no_hp'] ?>" type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Masukkkan Nomor HP Siswa">
+                                  <label for="no" class="form-label">No. Telepon</label>
+                                  <input type="number" class="form-control" id="no" value="<?= $row['no_hp'] ?>" aria-describedby="emailHelp" name="no_hp" required>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                              <button type="submit" class="btn btn-primary">Simpan</button>
+                              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                              </form>
                             </div>
-                            </form>
                           </div>
                         </div>
                       </div>
@@ -219,7 +200,6 @@
       <!-- Modal Tambah Siswa -->
       <?php
       $result_user = mysqli_query($koneksi, $query_user);
-      $result_kelas = mysqli_query($koneksi, $query_kelas);
       ?>
       <div class="modal fade modal-lg" id="tambahSiswaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -238,11 +218,15 @@
                 <div class="mb-3">
                   <label for="id_siswa" class="form-label">ID Siswa</label>
 
-                  <select id="id_siswa" name="id_user" class="form-select" aria-label="Default select example">
-                    <option selected disabled>-- Pilih ID Siswa --</option>
-                    <?php while ($user = mysqli_fetch_array($result_user)) : ?>
-                      <option value="<?= $user['id_user'] ?>"><?= $user['nama_lengkap'] ?></option>
-                    <?php endwhile ?>
+                  <select id="id_siswa" name="id_user" class="form-select mb-3" aria-label="Default select example" required>
+                    <option selected disabled>- Pilih Siswa -</option>
+                    <?php
+                    $query_user = "SELECT * FROM users WHERE role = 'siswa'";
+                    $result_user = mysqli_query($koneksi, $query_user);
+                    while ($row_user = mysqli_fetch_array($result_user)) :
+                    ?>
+                      <option value="<?= $row_user['id_user'] ?>"><?= $row_user['nama_lengkap'] ?></option>
+                    <?php endwhile; ?>
                   </select>
                 </div>
                 <div class="mb-3">
@@ -255,11 +239,15 @@
                 </div>
                 <div class="mb-3">
                   <label for="id_kelas" class="form-label">Kelas</label>
-                  <select id="id_kelas" name="kelas" class="form-select" aria-label="Default select example">
-                    <option selected disabled>-- Pilih Kelas --</option>
-                    <?php while ($kelas = mysqli_fetch_array($result_kelas)) : ?>
-                      <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['nama_kelas'] ?></option>
-                    <?php endwhile ?>
+                  <select name="kelas" class="form-select mb-3" aria-label="Default select example" required>
+                    <option selected disabled>- Pilih Kelas -</option>
+                    <?php
+                    $query_kelas = "SELECT * FROM kelas";
+                    $result_kelas = mysqli_query($koneksi, $query_kelas);
+                    while ($row_kelas = mysqli_fetch_array($result_kelas)) :
+                    ?>
+                      <option value="<?= $row_kelas['id_kelas'] ?>"><?= $row_kelas['nama_kelas'] ?> - <?= $row_kelas['jurusan'] ?></option>
+                    <?php endwhile; ?>
                   </select>
                 </div>
                 <div class="mb-3">

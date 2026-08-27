@@ -313,15 +313,17 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.all.min.js
 
   <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/pdfmake.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/vfs_fonts.js"></script>  
+  <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.3.11/build/vfs_fonts.js"></script>
   <script>
     new DataTable('#example', {
-      layout: {
-        topStart: {
-          buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
-        }
-      }
-    });
+          language: {
+            emptyTable: "Tidak ada data yang tersedia pada tabel ini" },
+            layout: {
+              topStart: {
+                buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+              }
+            }
+          });
   </script>
   <!--end::Required Plugin(AdminLTE)-->
   <!--begin::OverlayScrollbars Configure-->

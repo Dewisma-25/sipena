@@ -33,7 +33,7 @@
             <!--begin::Row-->
             <div class="row">
               <div class="col-lg-12">
-                <table class="table table-striped table-hover">
+                <table id="example" class="table table-striped table-hover">
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
@@ -47,11 +47,7 @@
                   <tbody>
                     <?php
                     $query_kelas = "SELECT
-                                      kelas.id_kelas,
-                                      kelas.nama_kelas,
-                                      kelas.jurusan,
-                                      kelas.tingkat,
-                                      kelas.wali_kelas,
+                                      kelas.*,
                                       users.nama_lengkap AS nama_wali_kelas
                                     FROM kelas
                                     LEFT JOIN users
@@ -75,7 +71,7 @@
                         <td><?= $row['nama_kelas'] ?></td>
                         <td><?= $row['jurusan'] ?></td>
                         <td><?= $row['tingkat'] ?></td>
-                        <td><?= $row['nama_wali_kelas'] ?></td>
+                        <td><?= $row['wali_kelas'] ?></td>
 
                         <td>
                           <div class="aksi">
@@ -142,7 +138,7 @@
                                   <label for="wali_kelas" class="form-label">Wali Kelas</label>
                                   <select name="wali_kelas" class="form-select" aria-label="Default select example">
                                     <?php foreach ($data_guru as $guru) : ?>
-                                        <option value="<?= $guru['id_user'] ?>"<?= $guru['id_user'] == $row['wali_kelas'] ? 'selected' : '' ?>><?= $guru['nama_lengkap'] ?></option>
+                                        <option value="<?= $guru['nama_lengkap'] ?>"<?= $guru['nama_lengkap'] == $row['wali_kelas'] ? 'selected' : '' ?>><?= $guru['nama_lengkap'] ?></option>
                                     <?php endforeach ?>
                                   </select>
                                 </div>
@@ -204,7 +200,7 @@
                     <?php $result_guru = mysqli_query($koneksi, $query_guru) ?>
                     <option value="" selected disabled>PILIH WALI KELAS</option>
                     <?php while ($guru = mysqli_fetch_array($result_guru)) : ?>
-                      <option value="<?= $guru['id_user'] ?>"><?= $guru['nama_lengkap'] ?></option>
+                      <option value="<?= $guru['nama_lengkap'] ?>"><?= $guru['nama_lengkap'] ?></option>
                     <?php endwhile ?>
                   </select>
                 </div>
