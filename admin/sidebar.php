@@ -2,7 +2,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="./index.html" class="brand-link">
+          <a href="index.php" class="brand-link">
             <!--begin::Brand Image-->
             <img
               src="assets/image/logo.png"
@@ -55,6 +55,12 @@
                 <a href="index.php?menu=data_jenis_izin" class="nav-link">
                   <i class="bi bi-card-text"></i>
                   <p>Data Jenis Izin</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="logout.php" class="nav-link text-danger">
+                  <i class="bi bi-box-arrow-left"></i>
+                  <p>KELUAR</p>
                 </a>
               </li>
 

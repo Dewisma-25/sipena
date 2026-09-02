@@ -1,4 +1,12 @@
 <?php
+session_start();
+//berfungsi mengecek sesi agar tidak sembarang orang bisa masuk ke page admin
+if (!isset($_SESSION['username'])) {
+  header("Location: login.php?pesan=belum_login");
+  exit;
+}
+
+
 include("../koneksi.php");
 ?>
 
@@ -8,7 +16,7 @@ include("../koneksi.php");
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>AdminLTE v4 | Dashboard</title>
+  <title>SIPENA - Dashboard</title>
 
   <!--begin::Theme Init (prevents flash of incorrect theme on load, #6043)-->
   <script>
