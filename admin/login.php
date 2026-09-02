@@ -104,7 +104,7 @@
         if ($pesan == 'belum_login') { ?>
           <div class="alert alert-warning" role="alert">
             anda belum login
-          </div>
+          </div> 
         <?php } elseif ($pesan == 'gagal') { ?>
           <div class="alert alert-danger" role="alert">
             username atau password salah
