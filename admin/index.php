@@ -2,7 +2,7 @@
 session_start();
 //berfungsi mengecek sesi agar tidak sembarang orang bisa masuk ke page admin
 if (!isset($_SESSION['username'])) {
-  header("Location: login.php?pesan=belum_login");
+  header("Location: auth/login.php?pesan=belum_login");
   exit;
 }
 

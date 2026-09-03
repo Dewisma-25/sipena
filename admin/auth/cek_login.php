@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../koneksi.php");
+include("../../koneksi.php");
 
 
 $username = $_POST['username'];
@@ -16,7 +16,7 @@ if ($row > 0) {
     $_SESSION['username'] = $r['username'];
     $_SESSION['nama_lengkap'] = $r['nama_lengkap'];
     $_SESSION['role'] = $r['role'];
-    header("location: index.php");
+    header("location: ../index.php");
 } elseif ($username == '' || $password == '') {
     header("location: login.php?pesan=isi_form");
 } else {

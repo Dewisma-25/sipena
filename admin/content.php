@@ -20,6 +20,12 @@ switch($menu) {
     case 'data_jenis_izin':
         include 'content/data_jenis_izin.php'; //menampilkan halaman data jenis izin
         break;
+    case 'data_izin':
+        include 'content/data_izin.php'; //menampilkan halaman data izin
+        break;
+    case 'data_verifikasi':
+        include 'content/data_verifikasi.php'; //menampilkan halaman verifikasi izin
+        break;
 }
 } else {
         include 'content/beranda.php';

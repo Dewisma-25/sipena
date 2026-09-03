@@ -7,8 +7,7 @@
             <img
               src="assets/image/logo.png"
               alt="Sipena logo"
-              class="brand-image opacity-75 shadow rounded-circle"
-            />
+              class="brand-image opacity-75 shadow rounded-circle" />
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
             <span class="brand-text fw-bold" style="font-size: 1.65rem;">SIPENA</span>
@@ -24,8 +23,7 @@
               class="nav sidebar-menu flex-column"
               data-lte-toggle="treeview"
               data-accordion="false"
-              id="navigation"
-            >
+              id="navigation">
               <li class="nav-item">
                 <a href="index.php?menu=beranda" class="nav-link">
                   <i class="bi bi-house-door-fill"></i>
@@ -57,8 +55,22 @@
                   <p>Data Jenis Izin</p>
                 </a>
               </li>
+              <li class="nav-header">DATA IZIN</li>
               <li class="nav-item">
-                <a href="logout.php" class="nav-link text-danger">
+                <a href="index.php?menu=data_izin" class="nav-link">
+                  <i class="bi bi-kanban-fill"></i>
+                  <p>Data Izin</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="index.php?menu=data_verifikasi" class="nav-link">
+                  <i class="bi bi-calendar-check"></i>
+                  <p>Verifikasi Izin</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="auth/logout.php" class="nav-link" style="background:#dc3545;">
                   <i class="bi bi-box-arrow-left"></i>
                   <p>KELUAR</p>
                 </a>
