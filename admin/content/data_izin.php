@@ -62,7 +62,11 @@
                                     <td><?= $row['nama_jenis'] ?></td>
                                     <td><?= $row['tanggal'] ?></td>
                                     <td><?= $row['alasan'] ?></td>
-                                    <td><?= $row['file_surat'] ?></td>
+                                    <td>
+                                        <a href="uploads/<?= $row['file_surat'] ?>" class="btn btn-sm btn-info" style="background:#1DCED8;" target="_blank">
+                                            <i class="bi bi-card-image"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <?php if ($row['status'] == 'menunggu') {  ?>
                                             <span class="badge bg-warning text-dark">Menunggu</span>
@@ -84,7 +88,7 @@
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                             <script>
-                                                document.getElementById("hapus<?= $row['id_siswa'] ?>").addEventListener("click", function(event) {
+                                                document.getElementById("hapus<?= $row['id_izin'] ?>").addEventListener("click", function(event) {
                                                     event.preventDefault();
                                                     Swal.fire({
                                                         title: "Apa Kamu Yakin?",
@@ -96,7 +100,7 @@
                                                         confirmButtonText: "Ya, Hapus Data Ini!"
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
-                                                            window.location.href = "action/aksi_siswa.php?aksi=hapus&id_siswa=<?= $row['id_siswa'] ?>"
+                                                            window.location.href = "action/aksi_izin.php?aksi=hapus&id_izin=<?= $row['id_izin'] ?>"
                                                         };
                                                     });
                                                 });
@@ -108,78 +112,92 @@
 
                                 <!-- Modal edit  -->
                                 <!-- Modal -->
-                                <div class="modal fade modal-lg" id="edit<?= $row['id_izin'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                <div class="modal fade" id="edit<?= $row['id_izin'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Izin</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="aksi/aksi_izin.php" method="post" enctype="multipart/form-data">
-                                                    <!-- untuk mengarahkan ke aksi tambah -->
-                                                    <input type="text" name="aksi" id="" value="tambah" hidden>
-                                                    <!-- batas -->
+                                                <form action="action/aksi_izin.php" method="POST" enctype="multipart/form-data">
+                                                    <input type="hidden" name="aksi" value="edit">
+                                                    <input type="hidden" name="id_izin" value="<?= $row['id_izin'] ?>">
+
                                                     <div class="mb-3">
-                                                        <label for="no" class="form-label">Nama Siswa</label>
-                                                        <select name="nama" class="form-select" aria-label="Default select example">
+                                                        <label for="edit_siswa<?= $row['id_izin'] ?>" class="form-label">Nama Siswa</label>
+                                                        <select name="id_siswa" id="edit_siswa<?= $row['id_izin'] ?>" class="form-select" required>
                                                             <?php
-                                                            $query = "SELECT id_siswa, nama_siswa FROM siswa";
-                                                            $result = mysqli_query($koneksi, $query);
-                                                            while ($row1 = mysqli_fetch_array($result)) :
+                                                            $query_s  = "SELECT id_siswa, nama_siswa FROM siswa ORDER BY nama_siswa ASC";
+                                                            $result_s = mysqli_query($koneksi, $query_s);
+                                                            while ($row_s = mysqli_fetch_array($result_s)) :
                                                             ?>
-                                                                <option value="<?= $row1[''] ?>"><?= $row1['nama_siswa'] ?></option>
-                                                            <?php endwhile ?>
+                                                                <option value="<?= $row_s['id_siswa'] ?>" <?= ($row_s['id_siswa'] == $row['id_siswa']) ? 'selected' : '' ?>>
+                                                                    <?= $row_s['nama_siswa'] ?>
+                                                                </option>
+                                                            <?php endwhile; ?>
                                                         </select>
                                                     </div>
+
                                                     <div class="mb-3">
-                                                        <label for="no" class="form-label">Jenis Izin</label>
-                                                        <select name="jenis_izin" class="form-select" aria-label="Default select example">
+                                                        <label for="edit_jenis<?= $row['id_izin'] ?>" class="form-label">Jenis Izin</label>
+                                                        <select name="id_jenis" id="edit_jenis<?= $row['id_izin'] ?>" class="form-select" required>
                                                             <?php
-                                                            $query = "SELECT id_jenis, nama_jenis FROM jenis_izin";
-                                                            $result = mysqli_query($koneksi, $query);
-                                                            while ($r = mysqli_fetch_array($result)) :
+                                                            $query_j  = "SELECT id_jenis, nama_jenis FROM jenis_izin ORDER BY nama_jenis ASC";
+                                                            $result_j = mysqli_query($koneksi, $query_j);
+                                                            while ($row_j = mysqli_fetch_array($result_j)) :
                                                             ?>
-                                                                <option value="<?= $r['id_jenis'] ?>"><?= $r['nama_jenis'] ?></option>
-                                                            <?php endwhile ?>
+                                                                <option value="<?= $row_j['id_jenis'] ?>" <?= ($row_j['id_jenis'] == $row['id_jenis']) ? 'selected' : '' ?>>
+                                                                    <?= $row_j['nama_jenis'] ?>
+                                                                </option>
+                                                            <?php endwhile; ?>
                                                         </select>
                                                     </div>
+
                                                     <div class="mb-3">
-                                                        <label for="nama" class="form-label">Tanggal</label>
-                                                        <input type="date" class="form-control" id="nama" aria-describedby="emailHelp" name="tanggal" required value="<?= $row['tanggal'] ?>">
+                                                        <label class="form-label">Tanggal</label>
+                                                        <input type="date" class="form-control" name="tanggal" required value="<?= $row['tanggal'] ?>">
                                                     </div>
+
                                                     <div class="mb-3">
-                                                        <label for="nama" class="form-label">Waktu Mulai</label>
-                                                        <input type="time" class="form-control" id="nama" aria-describedby="emailHelp" name="waktu_mulai" required value="<?= $row['waktu_mulai'] ?>">
+                                                        <label class="form-label">Waktu Mulai</label>
+                                                        <input type="time" class="form-control" name="waktu_mulai" required value="<?= $row['waktu_mulai'] ?>">
                                                     </div>
+
                                                     <div class="mb-3">
-                                                        <label for="nama" class="form-label">Waktu Selesai</label>
-                                                        <input type="time" class="form-control" id="nama" aria-describedby="emailHelp" name="waktu_selesai" required value="<?= $row['waktu_selesai'] ?>">
+                                                        <label class="form-label">Waktu Selesai</label>
+                                                        <input type="time" class="form-control" name="waktu_selesai" required value="<?= $row['waktu_selesai'] ?>">
                                                     </div>
+
                                                     <div class="mb-3">
-                                                        <label for="email" class="form-label">Alasan</label>
-                                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="alasan"><?= $row['alasan'] ?></textarea>
+                                                        <label class="form-label">Alasan</label>
+                                                        <textarea class="form-control" rows="3" name="alasan" required><?= $row['alasan'] ?></textarea>
                                                     </div>
+
                                                     <div class="mb-3">
-                                                        <label for="no" class="form-label">File Surat</label>
-                                                        <input type="file" class="form-control" id="no" aria-describedby="emailHelp" name="foto" required>
+                                                        <label class="form-label">File Surat</label>
+                                                        <input type="file" class="form-control" name="file_surat">
+                                                        <?php if (!empty($row['file_surat'])): ?>
+                                                            <small class="text-muted d-block mt-1">File saat ini: <strong><?= $row['file_surat'] ?></strong> (Kosongkan jika tidak ingin mengubah file)</small>
+                                                        <?php endif; ?>
                                                     </div>
+
                                                     <div class="mb-3">
-                                                        <label for="no" class="form-label">Status</label>
-                                                        <select name="role" class="form-select" aria-label="Default select example">
-                                                            <option selected>-Pilih Status-</option>
-                                                            <option value="menunggu">Menunggu</option>
-                                                            <option value="disetujui">Disetujui</option>
-                                                            <option value="ditolak">Ditolak</option>
+                                                        <label class="form-label">Status</label>
+                                                        <select name="status" class="form-select" required>
+                                                            <option value="menunggu" <?= ($row['status'] == 'menunggu') ? 'selected' : '' ?>>Menunggu</option>
+                                                            <option value="disetujui" <?= ($row['status'] == 'disetujui') ? 'selected' : '' ?>>Disetujui</option>
+                                                            <option value="ditolak" <?= ($row['status'] == 'ditolak') ? 'selected' : '' ?>>Ditolak</option>
                                                         </select>
                                                     </div>
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                                                <button type="submit" class="btn btn-success">Simpan</button>
+                                                </form>
                                             </div>
-                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -217,7 +235,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="siswa" class="form-label">Nama Siswa</label>
-                        <select name="siswa" class="form-select" aria-label="Default select example">
+                        <select name="id_siswa" class="form-select" aria-label="Default select example">
                             <option selected disabled>-- Pilih Siswa --</option>
                             <?php
                             $query = "SELECT s.id_siswa, s.nama_siswa FROM siswa s";
@@ -232,7 +250,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="jenis_izin" class="form-label">Jenis Izin</label>
-                        <select name="jenis_izin" class="form-select" aria-label="Default select example">
+                        <select name="id_jenis" class="form-select" aria-label="Default select example">
                             <option selected disabled>-- Pilih Jenis Izin --</option>
                             <?php
                             $query = "SELECT j.id_jenis, j.nama_jenis FROM jenis_izin j";
@@ -263,7 +281,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="file" class="form-label">File</label>
-                        <input type="file" class="form-control" id="file" name="file">
+                        <input type="file" class="form-control" id="file" name="file_surat">
                         <small> (.jpg, .jpeg, .png) </small>
                     </div>
                     <div class="mb-3">
