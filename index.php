@@ -213,7 +213,7 @@ $r_ditolak   = mysqli_fetch_assoc(mysqli_query($koneksi, $q_ditolak));
                                             <td><?= $row['tanggal'] ?></td>
                                             <td><?= $row['alasan'] ?></td>
                                             <td>
-                                                <a href="uploads/<?= $row['file_surat'] ?>" class="btn btn-sm btn-info" style="background:#1DCED8;" target="_blank">
+                                                <a href="admin/uploads/<?= $row['file_surat'] ?>" class="btn btn-sm btn-info" style="background:#1DCED8;" target="_blank">
                                                     <i class="bi bi-card-image"></i>
                                                 </a>
                                             </td>

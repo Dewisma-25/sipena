@@ -11,7 +11,7 @@ if (!isset($_SESSION['nama_siswa']) || !isset($_SESSION['id_siswa'])) {
 if (isset($_POST['aksi'])) {
     $aksi = $_POST['aksi'];
 
-    $upload_dir = "../uploads/";
+    $upload_dir = "../admin/uploads/";
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0777, true);
     }
