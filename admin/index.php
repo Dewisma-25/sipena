@@ -111,9 +111,6 @@ include("../koneksi.php");
   <!-- data tables -->
   <link href="https://cdn.datatables.net/v/dt/dt-3.0.2/datatables.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/buttons/4.0.2/css/buttons.dataTables.min.css" rel="stylesheet">
-  <link rel="https://cdn.datatables.net/3.0.2/css/dataTables.dataTables.min.css" href="stylesheet">
-  <link rel="https://cdn.datatables.net/buttons/4.0.2/css/buttons.dataTables.min.css" href="stylesheet">
-
 </head>
 <!--end::Head-->
 <!--begin::Body-->

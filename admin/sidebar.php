@@ -24,6 +24,7 @@
               data-lte-toggle="treeview"
               data-accordion="false"
               id="navigation">
+              
               <li class="nav-item">
                 <a href="index.php?menu=beranda" class="nav-link">
                   <i class="bi bi-house-door-fill"></i>
@@ -75,6 +76,7 @@
                   <p>KELUAR</p>
                 </a>
               </li>
+            </ul>
 
           </nav>
         </div>

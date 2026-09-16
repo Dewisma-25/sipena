@@ -170,11 +170,11 @@ $r_ditolak   = mysqli_fetch_assoc(mysqli_query($koneksi, $q_ditolak));
                                     <input type="file" class="form-control" id="file" name="file_surat">
                                     <small> (.jpg, .jpeg, .png) </small>
                                 </div>
+                                <div class="modal-footer gap-2 m-3">
+                                    <input type="submit" value="ajukan" class="btn btn-primary">
+                                </div>
+                            </form>
                         </div>
-                        <div class="modal-footer gap-2 m-3">
-                            <input type="submit" value="ajukan" class="btn btn-primary">
-                        </div>
-                        </form>
                     </div>
                 </div>
                 <div class="col-lg-8">
@@ -234,97 +234,6 @@ $r_ditolak   = mysqli_fetch_assoc(mysqli_query($koneksi, $q_ditolak));
                                             <!-- tombol edit dan hapus -->
                                         </tr>
 
-                                        <!-- Modal edit  -->
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="edit<?= $row['id_izin'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Izin</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="action/aksi_izin.php" method="POST" enctype="multipart/form-data">
-                                                            <input type="hidden" name="aksi" value="edit">
-                                                            <input type="hidden" name="id_izin" value="<?= $row['id_izin'] ?>">
-
-                                                            <div class="mb-3">
-                                                                <label for="edit_siswa<?= $row['id_izin'] ?>" class="form-label">Nama Siswa</label>
-                                                                <select name="id_siswa" id="edit_siswa<?= $row['id_izin'] ?>" class="form-select" required>
-                                                                    <?php
-                                                                    $query_s  = "SELECT id_siswa, nama_siswa FROM siswa ORDER BY nama_siswa ASC";
-                                                                    $result_s = mysqli_query($koneksi, $query_s);
-                                                                    while ($row_s = mysqli_fetch_array($result_s)) :
-                                                                    ?>
-                                                                        <option value="<?= $row_s['id_siswa'] ?>" <?= ($row_s['id_siswa'] == $row['id_siswa']) ? 'selected' : '' ?>>
-                                                                            <?= $row_s['nama_siswa'] ?>
-                                                                        </option>
-                                                                    <?php endwhile; ?>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label for="edit_jenis<?= $row['id_izin'] ?>" class="form-label">Jenis Izin</label>
-                                                                <select name="id_jenis" id="edit_jenis<?= $row['id_izin'] ?>" class="form-select" required>
-                                                                    <?php
-                                                                    $query_j  = "SELECT id_jenis, nama_jenis FROM jenis_izin ORDER BY nama_jenis ASC";
-                                                                    $result_j = mysqli_query($koneksi, $query_j);
-                                                                    while ($row_j = mysqli_fetch_array($result_j)) :
-                                                                    ?>
-                                                                        <option value="<?= $row_j['id_jenis'] ?>" <?= ($row_j['id_jenis'] == $row['id_jenis']) ? 'selected' : '' ?>>
-                                                                            <?= $row_j['nama_jenis'] ?>
-                                                                        </option>
-                                                                    <?php endwhile; ?>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Tanggal</label>
-                                                                <input type="date" class="form-control" name="tanggal" required value="<?= $row['tanggal'] ?>">
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Waktu Mulai</label>
-                                                                <input type="time" class="form-control" name="waktu_mulai" required value="<?= $row['waktu_mulai'] ?>">
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Waktu Selesai</label>
-                                                                <input type="time" class="form-control" name="waktu_selesai" required value="<?= $row['waktu_selesai'] ?>">
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Alasan</label>
-                                                                <textarea class="form-control" rows="3" name="alasan" required><?= $row['alasan'] ?></textarea>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">File Surat</label>
-                                                                <input type="file" class="form-control" name="file_surat">
-                                                                <?php if (!empty($row['file_surat'])): ?>
-                                                                    <small class="text-muted d-block mt-1">File saat ini: <strong><?= $row['file_surat'] ?></strong> (Kosongkan jika tidak ingin mengubah file)</small>
-                                                                <?php endif; ?>
-                                                            </div>
-
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Status</label>
-                                                                <select name="status" class="form-select" required>
-                                                                    <option value="menunggu" <?= ($row['status'] == 'menunggu') ? 'selected' : '' ?>>Menunggu</option>
-                                                                    <option value="disetujui" <?= ($row['status'] == 'disetujui') ? 'selected' : '' ?>>Disetujui</option>
-                                                                    <option value="ditolak" <?= ($row['status'] == 'ditolak') ? 'selected' : '' ?>>Ditolak</option>
-                                                                </select>
-                                                            </div>
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                                                        <button type="submit" class="btn btn-success">Simpan</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
                                     <?php
                                     endwhile; //penutup perulangan
